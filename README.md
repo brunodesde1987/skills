@@ -1,13 +1,11 @@
-# Skills
+# Agent Skills
 
-Claude Code skills by [@brunodesde1987](https://github.com/brunodesde1987).
+A collection of agent skills by [@brunodesde1987](https://github.com/brunodesde1987).
 
-## Available Skills
+## JavaScript & TypeScript
 
-### [modern-ecmascript](./modern-ecmascript)
+- **modern-ecmascript** — Modern ES2023–ES2026 patterns based on TC39 official proposals. Replaces spread-sort, reduce-grouping, promise hoisting, and other outdated idioms with native equivalents.
 
-ES2023–ES2026 patterns for JavaScript/TypeScript.
-
-```bash
-npx skills add brunodesde1987/skills --skill modern-ecmascript
-```
+  ```
+  npx skills@latest add brunodesde1987/skills/modern-ecmascript
+  ```
