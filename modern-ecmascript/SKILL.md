@@ -1,6 +1,6 @@
 ---
 name: modern-ecmascript
-description: Modern ES2023–ES2026 patterns for JS/TS. Replaces spread-sort, reduce-grouping, promise hoisting, and other outdated idioms with native equivalents.
+description: Modern ES2023–ES2026 patterns for JS/TS based on TC39 official proposals. Replaces spread-sort, reduce-grouping, promise hoisting, and other outdated idioms with native equivalents.
 ---
 
 # Modern ECMAScript Patterns
