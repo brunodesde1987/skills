@@ -1,24 +1,6 @@
 ---
 name: modern-ecmascript
-description: >
-  Ensures Claude uses modern ECMAScript patterns (ES2023–ES2026) instead of
-  outdated JavaScript idioms. Use this skill whenever writing, reviewing, or
-  refactoring JavaScript or TypeScript code — including array manipulation,
-  grouping data, Set operations, iterator pipelines, promise handling, error
-  handling, resource cleanup, regex, string processing, binary encoding, or
-  module imports. Also activate when the user says 'modernize this code',
-  'use modern JS', 'update to latest ECMAScript', 'refactor to modern
-  patterns', 'what's the modern way to...', or asks about new JS features.
-  Activate proactively when you see old patterns like spread-then-sort,
-  reduce-based grouping, manual promise executor hoisting, try/finally for
-  resource cleanup, atob/btoa for encoding, or lodash/underscore equivalents
-  of now-native features. Do NOT use for ES6 basics that Claude already
-  handles well (arrow functions, destructuring, spread/rest, template
-  literals, async/await, optional chaining, nullish coalescing, classes,
-  modules, Promise.all/race/allSettled/any). Do NOT use for
-  TypeScript-specific features (satisfies, utility types, decorators),
-  Node.js/Deno/Bun runtime APIs, framework-specific patterns (React, Vue,
-  Angular), or CSS/HTML questions.
+description: Modern ES2023–ES2026 patterns for JS/TS. Replaces spread-sort, reduce-grouping, promise hoisting, and other outdated idioms with native equivalents.
 ---
 
 # Modern ECMAScript Patterns
