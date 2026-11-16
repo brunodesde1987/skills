@@ -9,3 +9,11 @@ A collection of agent skills by [@brunodesde1987](https://github.com/brunodesde1
   ```
   npx skills@latest add brunodesde1987/skills/modern-ecmascript
   ```
+
+  To try it without installing:
+
+  ```
+  npx skills@latest use brunodesde1987/skills@modern-ecmascript
+  ```
+
+The `skills` CLI needs Node.js 22.20 or later.
