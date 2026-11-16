@@ -35,7 +35,7 @@ aggregation — anywhere you're summing numbers that might span many orders
 of magnitude. Also useful as a simple replacement for any `.reduce((a,b) => a+b, 0)`
 where precision matters.
 
-**Support:** Firefox 137+; Chrome and Safari not yet shipped.
+**Support:** Chrome 147+, Firefox 137+, Safari 26.2+; Node not yet.
 
 ---
 
@@ -46,9 +46,8 @@ replaces the broken `Date` object with purpose-built immutable types that
 handle timezones, calendars, and duration arithmetic correctly.
 
 **Current status:** Reached Stage 4 at the March 2026 TC39 meeting.
-Expected in the ES2027 spec. Browser support is actively shipping:
-Firefox 139+, Chrome 144+. Safari in development. Polyfill available
-at `@js-temporal/polyfill`.
+Expected in the ES2027 spec. Shipped in Chrome 144+, Firefox 139+,
+Safari 27.3+, Node 26+. For older targets, use `@js-temporal/polyfill`.
 
 ### Why Date is broken
 

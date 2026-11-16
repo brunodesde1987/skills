@@ -79,7 +79,7 @@ match.groups.year;  // always the year, no fallback needed
 in the same alternative. Only the groups from the matched alternative are
 populated; unmatched groups are `undefined`.
 
-**Support:** Chrome 125+, Firefox 129+, Safari 17.4+, Node 22+.
+**Support:** Chrome 125+, Firefox 129+, Safari 17+, Node 23+.
 
 ---
 
@@ -102,7 +102,7 @@ new RegExp(`https?://${RegExp.escape(userDomain)}(?=/)`);
 regex syntax characters. `RegExp.escape` is maintained by the spec and will
 always be current.
 
-**Support:** Chrome 136+, Firefox 134+, Safari 18.2+, Node 23+.
+**Support:** Chrome 136+, Firefox 134+, Safari 18.2+, Node 24+.
 
 ---
 
@@ -128,7 +128,7 @@ where different parts need different flag behavior. Also useful when
 storing patterns in config files where the pattern itself needs to carry
 its flag preferences.
 
-**Support:** Chrome 125+, Firefox 132+, Safari 17+.
+**Support:** Chrome 125+, Firefox 132+, Safari 26+, Node 23+.
 
 ---
 
@@ -143,7 +143,7 @@ already supported by Node.js, but is now part of the ECMAScript spec.
 console.log('Hello from a CLI script');
 ```
 
-**Support:** Chrome 74+, Firefox 67+, Safari 14.1+, Node 12+.
+**Support:** Chrome 74+, Firefox 67+, Safari 13.1+, Node 12+.
 
 ---
 
@@ -169,4 +169,4 @@ JSON.parse('{"id": 12345678901234567890}', (key, value, context) => {
 high-precision financial data, or any JSON with numbers that exceed
 `Number.MAX_SAFE_INTEGER`.
 
-**Support:** Chrome 114+, Safari 18+; Firefox partial.
+**Support:** Chrome 114+, Firefox 135+, Safari 18.4+, Node 21+.

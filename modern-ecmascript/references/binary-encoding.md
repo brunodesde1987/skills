@@ -29,7 +29,7 @@ view.setFloat16(0, 1.5);    // write half-precision float
 audio processing, any scenario where precision loss is acceptable in
 exchange for memory savings.
 
-**Support:** Chrome 129+, Firefox 129+, Safari 18.2+, Node 24+.
+**Support:** Chrome 135+, Firefox 129+, Safari 18.2+, Node 24+.
 
 ---
 
@@ -81,7 +81,7 @@ const target = new Uint8Array(1024);
 const { read, written } = target.setFromBase64(largeBase64String);
 ```
 
-**Support:** Firefox 133+, Safari 18.2+; Chrome not yet shipped.
+**Support:** Chrome 140+, Firefox 133+, Safari 18.2+, Node 25+.
 
 ---
 
@@ -145,7 +145,7 @@ const fixed = resizableBuf.transferToFixedLength();
 **When to use:** Passing buffers between workers or modules where you want
 to enforce single-ownership semantics (similar to Rust's move semantics).
 
-**Support:** Chrome 114+, Firefox 122+, Safari 17.4+, Node 22+.
+**Support:** Chrome 114+, Firefox 122+, Safari 17.4+, Node 21+.
 
 ---
 

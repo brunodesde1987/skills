@@ -211,7 +211,91 @@ const combined = Iterator.concat(a, b, c);
 Iterator.concat(headers, rows, footers).filter(fn).take(10);
 ```
 
-**Support:** Chrome 146+, Firefox 147+, Safari 26.4+.
+**Support:** Chrome 146+, Firefox 147+, Safari 26.4+, Node 26+.
+
+---
+
+## Iterator chunks / windows (ES2027)
+
+`chunks(n)` yields non-overlapping arrays of up to `n` items (the last one
+may be shorter). `windows(n)` yields overlapping arrays of exactly `n` items.
+
+```js
+// ❌ OLD — manual batching loop, or lodash _.chunk on a materialized array
+const batches = [];
+for (let i = 0; i < ids.length; i += 100) batches.push(ids.slice(i, i + 100));
+
+// ✅ NEW — lazy, works on any iterator
+for (const batch of ids.values().chunks(100)) await saveBatch(batch);
+
+// Sliding window: pairwise deltas, running averages
+const deltas = readings.values()
+  .windows(2)
+  .map(([prev, next]) => next - prev)
+  .toArray();
+```
+
+**Support:** Firefox 154+, Safari 27.3+; Chrome and Node not yet.
+
+---
+
+## Iterator includes (ES2027)
+
+```js
+// ❌ OLD — materialize or reach for some() with a comparator
+[...map.values()].includes(target);
+map.values().some(v => v === target);
+
+// ✅ NEW — same SameValueZero semantics as Array.prototype.includes
+map.values().includes(target);
+```
+
+A second `fromIndex` argument skips that many items first. Unlike
+`Array.prototype.includes`, it cannot be negative.
+
+**Support:** Chrome 154+, Firefox 154+, Safari 27.3+; Node not yet.
+
+---
+
+## Iterator join (ES2027)
+
+Works like `Array.prototype.join` on the iterator's values.
+
+```js
+// ❌ OLD — copy into an array just to join
+Array.from(map.keys()).join(', ');
+
+// ✅ NEW
+map.keys().join(', ');
+```
+
+**Support:** Chrome 153+, Firefox 154+, Safari 27.3+.
+
+---
+
+## Iterator.zip / Iterator.zipKeyed (ES2027)
+
+Advances several iterables in lockstep. `zip` takes an iterable of
+iterables and yields arrays; `zipKeyed` takes an object of iterables and
+yields objects with the same keys.
+
+```js
+// ❌ OLD — index-based loop or lodash _.zip / _.zipObject
+const rows = names.map((name, i) => ({ name, age: ages[i] }));
+
+// ✅ NEW
+Iterator.zip([names, ages]).toArray();
+// [['Alice', 30], ['Bob', 25]]
+
+Iterator.zipKeyed({ name: names, age: ages }).toArray();
+// [{ name: 'Alice', age: 30 }, { name: 'Bob', age: 25 }]
+```
+
+The optional second argument sets `mode`: `'shortest'` (default, stops at
+the shortest input), `'longest'` (with optional `padding`), or `'strict'`
+(throws if the inputs have different lengths).
+
+**Support:** Chrome 153+, Firefox 148+, Safari 27.3+; Node not yet.
 
 ---
 
@@ -237,7 +321,7 @@ map.getOrInsert(key, 0);
 - `getOrInsertComputed(key, () => value)` — when the default is expensive
   to create (arrays, objects, class instances) and you want lazy initialization.
 
-**Support:** Chrome 145+, Firefox 144+, Safari 18.4+.
+**Support:** Chrome 145+, Firefox 144+, Safari 26.2+, Node 26+.
 
 ---
 

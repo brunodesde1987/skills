@@ -67,11 +67,11 @@ Error.isError(new DOMException());             // true
 Workers, ShadowRealms), or any code that needs to reliably distinguish
 errors from error-like objects.
 
-**Support:** Chrome 136+, Firefox 134+; Safari not yet.
+**Support:** Chrome 134+, Firefox 138+, Node 24.3+; Safari only in Technology Preview.
 
 ---
 
-## Explicit Resource Management — `using` declarations (ES2026)
+## Explicit Resource Management — `using` declarations (ES2027)
 
 Brings RAII-style deterministic cleanup to JavaScript. Resources with a
 `Symbol.dispose` or `Symbol.asyncDispose` method are automatically disposed
@@ -217,7 +217,7 @@ async function transferFunds(from, to, amount) {
 } // lock released
 ```
 
-**Support:** Chrome 134+ (partial); Firefox and Safari not yet.
+**Support:** Chrome 134+, Firefox 141+, Safari 27.3+, Node 24+.
 TypeScript 5.2+ has transpiler support. If your target doesn't support
 `using` natively, you can still implement `Symbol.dispose` on your classes
 for future compatibility while using try/finally in the meantime.

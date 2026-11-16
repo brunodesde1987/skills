@@ -58,4 +58,4 @@ export { default as config } from './config.json' with { type: 'json' };
 The earlier `assert` keyword syntax was deprecated in favor of `with`.
 If you see `import ... assert { type: 'json' }` in old code, update it.
 
-**Support:** Chrome 123+, Firefox 125+, Safari 17.2+, Node 22+.
+**Support:** Chrome 123+, Firefox 138+, Safari 17.2+, Node 20.10+.

@@ -77,7 +77,7 @@ function processInput(input, transformer) {
 }
 ```
 
-**Support:** Chrome 128+, Firefox 132+, Safari 18+, Node 23+.
+**Support:** Chrome 128+, Firefox 134+, Safari 18.2+, Node 23+.
 
 ---
 
@@ -136,4 +136,29 @@ if (async) {
 **When to use:** Multi-threaded web applications, WebAssembly shared memory
 coordination, and any shared-memory scenario where blocking is unacceptable.
 
-**Support:** Chrome 87+, Firefox 140+, Safari 16.4+, Node 16+.
+**Support:** Chrome 90+, Firefox 145+, Safari 16.4+, Node 16+.
+
+---
+
+## Atomics.pause (ES2027)
+
+A CPU hint for the spin phase of a lock: it waits a very short time and
+lets sibling cores use shared resources. It does not block, so it works on
+the main thread and in workers.
+
+```js
+// ❌ OLD — empty busy-wait loop, no CPU hint
+while (!tryLock()) {}
+
+// ✅ NEW — spin briefly with a hint, then fall back to a real wait
+let spins = 0;
+while (!tryLock()) {
+  if (++spins < 100) Atomics.pause();
+  else await Atomics.waitAsync(lockState, 0, LOCKED).value;
+}
+```
+
+**When to use:** Lock and mutex implementations over `SharedArrayBuffer`,
+and Emscripten-style compiled code. Application code rarely needs it.
+
+**Support:** Chrome 133+, Firefox 137+, Safari 18.4+, Node 24+.

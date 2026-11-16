@@ -10,25 +10,35 @@ future-compatible, reference this list.
 
 ---
 
-## High likelihood of landing soon
+## Stage 3
 
-### Decorators
+### Await Dictionary (Promise.allKeyed)
 
-`@decorator` syntax for classes and class elements. Enables declarative
-metaprogramming — logging, validation, memoization, dependency injection.
+`Promise.allKeyed` is `Promise.all` keyed by name instead of position,
+the same shape as `Iterator.zipKeyed`.
 
 ```js
 // What it will look like
-@logged
-class UserService {
-  @validate
-  async createUser(@required name, @email email) { ... }
-}
+const { shape, color, mass } = await Promise.allKeyed({
+  shape: getShape(),
+  color: getColor(),
+  mass: getMass(),
+});
 ```
 
-**Replaces:** Manual wrapping functions, TypeScript experimental decorators
-(which use a different, older spec). Note: the TC39 decorators spec differs
-from TypeScript's legacy `experimentalDecorators` — they are not compatible.
+**Replaces:** Positional `Promise.all` destructuring (easy to mismatch
+order), and sequential `await`s that run requests one after another.
+
+### Import Text
+
+`type: 'text'` import attribute that imports a file's contents as a string.
+
+```js
+import template from './email.txt' with { type: 'text' };
+```
+
+**Replaces:** `fetch()` + `.text()` for module-relative assets. Deno and
+Bun already support it.
 
 ### Source Phase Imports
 
@@ -57,31 +67,23 @@ utils.doThing(); // NOW it executes
 **Replaces:** Dynamic `import()` with manual caching patterns for
 performance-sensitive startup paths.
 
-### Joint Iteration (Iterator.zip)
+### RegExp Buffer Boundaries
 
-`Iterator.zipToArray()` and `Iterator.zipToObject()` for parallel
-iteration over multiple iterables.
+`\A` (start of input), `\z` (end of input) and `\Z` (end of input, before
+an optional final line break) in Unicode-mode regexes. Unlike `^` and `$`,
+they ignore the `m` flag.
 
 ```js
-// What it will look like
-const keys = ['name', 'age', 'city'];
-const values = ['Alice', 30, 'NYC'];
-
-Iterator.zipToObject(keys, values);
-// { name: 'Alice', age: 30, city: 'NYC' }
-
-Iterator.zipToArray([iter1, iter2, iter3]);
-// [[a1, b1, c1], [a2, b2, c2], ...]
+const re = /\Afoo|^bar/mu; // foo only at input start, bar at any line start
 ```
 
-**Replaces:** Manual zip functions, lodash `_.zip` / `_.zipObject`.
+**Replaces:** Juggling `^`/`$` with and without the `m` flag, or
+`(?-m:^)` modifier groups.
 
-### Atomics.pause
+### Error Stack Accessor
 
-CPU hint for spinlock efficiency — tells the processor to use minimal
-resources while waiting.
-
-**Replaces:** Busy-wait loops without CPU efficiency hints.
+Standardizes the existing `error.stack` property as an accessor on
+`Error.prototype`. No new API: keep reading `err.stack` as today.
 
 ---
 
@@ -89,16 +91,26 @@ resources while waiting.
 
 These are worth knowing about but should NOT be suggested in code:
 
+- **Decorators** — `@decorator` syntax for classes and class elements, plus
+  **Decorator Metadata**. Babel and TypeScript already ship transforms for
+  it (see the TypeScript caveat below).
+
+  ```js
+  // What it will look like
+  @logged
+  class UserService {
+    @validate
+    async createUser(name, email) { ... }
+  }
+  ```
 - **ShadowRealm** — Isolated execution contexts for running untrusted code
   or creating clean global scopes.
-- **Iterator Chunking** — `iterator.chunks(n)` for batching iterator elements
-  into fixed-size arrays.
-- **Await Dictionary** — `await` on an object's values, like `Promise.all`
-  but with named keys instead of positional arrays.
+- **Import Bytes** — `import data from './file.bin' with { type: 'bytes' }`
+  gives a `Uint8Array`.
+- **JSON.parse options** — `JSON.parse(text, { freeze: true })` returns a
+  deeply frozen result.
 - **Immutable ArrayBuffers** — `arrayBuffer.transferToImmutable()` for
   read-only shared memory.
-- **Iterator Join** — `iterator.join(separator)` for joining iterator values
-  into strings without `toArray()` first.
 
 ---
 
@@ -109,9 +121,9 @@ These are worth knowing about but should NOT be suggested in code:
 
 2. **Design for compatibility.** If you're building something that a future
    proposal would improve, mention it in a code comment:
-   `// TODO: Replace with Iterator.zip when available`
+   `// TODO: Replace with Promise.allKeyed when available`
 
 3. **Be cautious about TypeScript experimental decorators.** The TC39
-   decorators spec (Stage 3) is different from TypeScript's legacy
+   decorators spec (Stage 2.7) is different from TypeScript's legacy
    `experimentalDecorators`. Code using the old TS decorators will need
    migration when the standard lands.

@@ -1,6 +1,6 @@
 ---
 name: modern-ecmascript
-description: Modern ES2023–ES2026 patterns for JS/TS based on TC39 official proposals. Replaces spread-sort, reduce-grouping, promise hoisting, and other outdated idioms with native equivalents.
+description: Modern ES2023–ES2027 patterns for JS/TS based on TC39 official proposals. Replaces spread-sort, reduce-grouping, promise hoisting, and other outdated idioms with native equivalents.
 ---
 
 # Modern ECMAScript Patterns
@@ -15,7 +15,7 @@ error-prone, and often engine-optimized.
 This skill does NOT cover ES6 fundamentals like arrow functions,
 destructuring, async/await, optional chaining, or classes — Claude already
 handles those well from training data. This skill exists specifically for
-ES2023–ES2026 features that Claude tends to miss because they're
+ES2023–ES2027 features that Claude tends to miss because they're
 underrepresented in training data.
 
 ## How to use this skill
@@ -50,6 +50,10 @@ reference files above.
 - `new Set([...a, ...b])` → `a.union(b)`
 - `[...a].filter(x => b.has(x))` → `a.intersection(b)`
 - Manual iterator `for...of` + accumulate → `iter.map().filter().take().toArray()`
+- `Array.from(iter).join(sep)` → `iter.join(sep)`
+- `[...iter].includes(x)` → `iter.includes(x)`
+- Manual `slice` batching loop / `_.chunk` → `iter.chunks(n)`
+- Index-based zip / `_.zip` → `Iterator.zip([a, b])` / `Iterator.zipKeyed({ a, b })`
 - `if (!map.has(k)) map.set(k, []); map.get(k).push(v)` → `map.getOrInsertComputed(k, () => []).push(v)`
 - `let resolve; new Promise((r) => { resolve = r })` → `Promise.withResolvers()`
 - `Promise.resolve().then(fn)` for mixed sync/async → `Promise.try(fn)`
@@ -108,16 +112,22 @@ Pay special attention to these when writing code:
 Not all features have universal engine support yet. When suggesting modern
 patterns, be aware of the target environment:
 
-- **ES2023–ES2024 features**: Broadly supported (Chrome 117+, Firefox 119+,
-  Safari 17+, Node 20+). Safe to use in virtually all modern environments.
+- **ES2023–ES2024 features**: Broadly supported (Chrome 119+, Firefox 128+,
+  Safari 17.4+, Node 22+). Safe to use in virtually all modern environments.
+  Outlier: `Atomics.waitAsync` needs Firefox 145+.
 - **ES2025 features** (Set methods, Iterator helpers, Promise.try, RegExp.escape):
-  Supported in latest browser versions and Node 22+. Check if the target
+  Supported in latest browser versions and Node 24+. Check if the target
   needs to support older versions.
-- **ES2026 features** (using, Error.isError, Math.sumPrecise, Uint8Array
-  base64/hex, Map.getOrInsert): Partial support. May require polyfills or
-  transpilation. Always note support status when suggesting these.
-- **Temporal**: Stage 4 but expected in ES2027. Not yet in any stable browser.
-  Only suggest with polyfill (`@js-temporal/polyfill`) and note the status.
+- **ES2026 features** (Error.isError, Math.sumPrecise, Uint8Array
+  base64/hex, Map.getOrInsert): Shipped in current Chrome, Firefox and
+  Safari, except `Error.isError` (Safari Technology Preview only). Node
+  support varies from 24 to 26, and `Math.sumPrecise` is not in Node yet.
+- **ES2027 features** (`using`, Temporal, Iterator chunks/windows/includes/
+  join/zip, Atomics.pause): `using`, Temporal and Atomics.pause are in all
+  three browsers and Node 24–26. The new iterator methods are browser-only
+  so far, and Chrome lacks `chunks`/`windows`. Always note support status
+  when suggesting these; for older targets, use `@js-temporal/polyfill` for
+  Temporal and TypeScript 5.2+ to transpile `using`.
 
 When in doubt about the target environment, prefer the modern pattern but
 note the minimum required version. For Node.js projects, check the
