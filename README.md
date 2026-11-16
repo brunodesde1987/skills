@@ -16,4 +16,18 @@ A collection of agent skills by [@brunodesde1987](https://github.com/brunodesde1
   npx skills@latest use brunodesde1987/skills@modern-ecmascript
   ```
 
+## CSS
+
+- **modern-css** — Modern CSS patterns based on the web-features Baseline data, covering features that shipped in every engine in 2023–2026 and the ones still limited. Replaces preprocessor nesting, specificity hacks, hand-mixed color variants, scroll listeners, and other outdated idioms with native CSS.
+
+  ```
+  npx skills@latest add brunodesde1987/skills/modern-css
+  ```
+
+  To try it without installing:
+
+  ```
+  npx skills@latest use brunodesde1987/skills@modern-css
+  ```
+
 The `skills` CLI needs Node.js 22.20 or later.
